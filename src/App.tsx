@@ -3,23 +3,27 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    const handleAlert = () => {
+        alert("Hello react");
+    }
+
+    return (
+        <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo"/>
+                <p>
+                    Homework #1 Marcin Gąsowski
+                </p>
+
+                <section>
+                    <button onClick={handleAlert}>Click me!</button>
+                    <a href="https://github.com/MGasowski/daftf4b">
+                        <button>Git</button>
+                    </a>
+                </section>
+            </header>
+
+        </div>
   );
 }
 
