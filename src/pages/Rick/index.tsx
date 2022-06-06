@@ -1,47 +1,34 @@
-import { Button, ImageList, ImageListItem, Zoom } from "@mui/material";
+import { ImageList, ImageListItem, Zoom } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useEffect, useState } from "react";
+import Image from "react-async-image";
+import useApi from "../../hooks/useApi";
 
 export default function Rick() {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [_, reload] = useState(1);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      setLoading(true);
-      await fetch("https://rickandmortyapi.com/api/character")
-        .then((res) => res.json())
-        .then((data) => data.results)
-        .then((results) => setImages(results.map((el: any) => el.image)));
-      setLoading(false);
-    };
-    fetchImages();
-  }, [_]);
+  const { loading, data: images } = useApi(
+    "https://rickandmortyapi.com/api/character"
+  );
 
   if (loading) return <p>"Loading..."</p>;
   return (
     <Box sx={{ minHeight: 393 }}>
-      <Button onClick={() => reload(Math.random())}> Rearrange Grid</Button>
-
       <ImageList
         sx={{ width: "100%", height: 700 }}
         variant="quilted"
         cols={4}
         rowHeight={121}
       >
-        {images.map((item) => {
+        {images.map((item: any) => {
           const cols = Math.floor(Math.random() * 3);
           return (
             <Zoom
               in
-              key={item}
+              key={item.id}
               style={{ transitionDelay: `${Math.random() * 300}ms` }}
             >
               <ImageListItem cols={cols} rows={cols}>
-                <img
-                  {...srcset(item, 121, cols, cols)}
-                  alt={item}
+                <Image
+                  {...srcset(item.image, 121, cols, cols)}
+                  alt={item.name}
                   loading="lazy"
                 />
               </ImageListItem>
