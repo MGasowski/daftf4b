@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import AirtableComp from "./components/Airtable";
 import Layout from "./Layout";
 import routes from "./routes";
 
