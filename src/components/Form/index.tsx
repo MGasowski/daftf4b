@@ -1,6 +1,7 @@
 import { Button, TextField, Snackbar } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useEffect, useState } from "react";
+import Airtable from "airtable";
 
 const Form = (props: any) => {
   const [value, setValue] = useState<string>("");
@@ -8,6 +9,10 @@ const Form = (props: any) => {
   const [error, setError] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
   const [snackMessage, setSnackMessage] = useState<string>("");
+
+  const base = new Airtable({
+    apiKey: process.env.REACT_APP_AIRTABLE_API_KEY,
+  }).base("appMHW3IvfzJLc5IU");
 
   const handleInput = (event: any) => {
     setValue(event.target.value);
@@ -18,6 +23,25 @@ const Form = (props: any) => {
     setOpen(true);
 
     localStorage.setItem("username", value);
+
+    base("Table 1").create(
+      [
+        {
+          fields: {
+            Name: value,
+          },
+        },
+      ],
+      function (err: any, records: any) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        records.forEach(function (record: any) {
+          console.log(record.getId());
+        });
+      }
+    );
   };
 
   useEffect(() => {
